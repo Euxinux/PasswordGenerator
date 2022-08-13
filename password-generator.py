@@ -1,9 +1,37 @@
 from password import Password
+MAX_PASSWORD_LENGTH = 30
+MIN_CHARACTER = 1
+MIN_PASSWORD_LENGTH = 4 * MIN_CHARACTER
 
-MAX_PASSWORD_LENGTH = 20
-MIN_PASSWORD_LENGTH = 8
-MIN_CHARACTER = 2
+
+def get_from_user(char_left, char_type, number_choice=1):
+    """
+     Function responsible for getting value of number of digits, special characters, uppercase letter form the user,
+     validation correct type of variable and return the characters left and user choice
+
+    :param char_left: possible left character to use
+    :param char_type: type of character getting from user
+    :param number_choice: variable using to safe minimum character left to each variable
+    :return: number of character left, number of each character
+    """
+    while True:
+        try:
+            user_choice = int(input("Set number of %s in password (min %d - max %d): " %
+                                    (char_type, MIN_CHARACTER, char_left - MIN_CHARACTER * number_choice)))
+            if not MIN_CHARACTER <= user_choice <= char_left - MIN_CHARACTER * number_choice:
+                print("Incorrect number of %s." % char_type)
+                continue
+            else:
+                char_left -= user_choice
+            return char_left, user_choice
+        except ValueError:
+            print("This value must be positive integer. Try again!")
+
+
 while True:
+    """
+    Main program loop, get password length from user and check input correctness
+    """
     try:
         password_length = int(input("Set you password length (%d-%d characters): "
                                     % (MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH)))
@@ -11,42 +39,15 @@ while True:
         if not MIN_PASSWORD_LENGTH <= password_length <= MAX_PASSWORD_LENGTH:
             print("Incorrect password length. Password must be in range %d - %d characters. Try again!"
                   % (MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
-            break
-
-        number_of_digits = int(input("Set number of digit in password (min %d - max %d): " %
-                                     (MIN_CHARACTER, characters_left - MIN_CHARACTER * 3)))
-        if not MIN_CHARACTER <= number_of_digits <= characters_left - MIN_CHARACTER * 3:
-            print("Incorrect number of digit.")
-            break
-        else:
-            characters_left -= number_of_digits
-
-        number_of_special_characters = int(input("Set number of special characters in password "
-                                                 "(min %d - max %d): "
-                                                 % (MIN_CHARACTER, characters_left - MIN_CHARACTER * 2)))
-        if not MIN_CHARACTER <= number_of_special_characters <= \
-               characters_left - MIN_CHARACTER * 2:
-            print("Incorrect number of special characters.")
-            break
-        else:
-            characters_left -= number_of_special_characters
-
-        number_of_uppercase_letters = int(input("Set number of uppercase letters in password "
-                                                "(min %d - max %d): "
-                                                % (MIN_CHARACTER, characters_left - MIN_CHARACTER)))
-        if not 1 <= number_of_uppercase_letters <= characters_left - MIN_CHARACTER:
-            print("Incorrect number of uppercase letters.")
-            break
-        else:
-            characters_left -= number_of_uppercase_letters
-
-        number_of_lowercase_letters = characters_left
+            continue
+        characters_left, number_of_digit = get_from_user(characters_left, "digit", 3)
+        characters_left, number_of_special_char = get_from_user(characters_left, "special characters", 2)
+        characters_left, number_of_uppercase = get_from_user(characters_left, "special characters")
+        number_of_lowercase = characters_left
         print("Number of lowercase letters is: %d" % characters_left)
-
-        print(number_of_digits, number_of_special_characters, number_of_uppercase_letters, number_of_lowercase_letters)
-
-        password = Password(number_of_digits, number_of_special_characters,
-                            number_of_uppercase_letters, number_of_lowercase_letters)
+        print(number_of_digit, number_of_special_char, number_of_uppercase, number_of_lowercase)
+        password = Password(number_of_digit, number_of_special_char,
+                            number_of_uppercase, number_of_lowercase)
         print(password.create_password())
 
     except ValueError:
