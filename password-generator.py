@@ -1,7 +1,8 @@
 from password import Password
-MAX_PASSWORD_LENGTH = 30
-MIN_CHARACTER = 1
-MIN_PASSWORD_LENGTH = 4 * MIN_CHARACTER
+
+MAX_PASSWORD_LENGTH = 30  # max password length
+MIN_CHARACTER = 1  # min amount of each type of char
+MIN_PASSWORD_LENGTH = 4 * MIN_CHARACTER  # min password length at least 4 x each type of characters
 
 
 def get_from_user(char_left, char_type, number_choice=1):
@@ -40,13 +41,15 @@ while True:
             print("Incorrect password length. Password must be in range %d - %d characters. Try again!"
                   % (MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH))
             continue
-        characters_left, number_of_digit = get_from_user(characters_left, "digit", 3)
+        characters_left, number_of_digits = get_from_user(characters_left, "digit", 3)
         characters_left, number_of_special_char = get_from_user(characters_left, "special characters", 2)
         characters_left, number_of_uppercase = get_from_user(characters_left, "special characters")
         number_of_lowercase = characters_left
-        print("Number of lowercase letters is: %d" % characters_left)
-        print(number_of_digit, number_of_special_char, number_of_uppercase, number_of_lowercase)
-        password = Password(number_of_digit, number_of_special_char,
+        print("Number of digits: %d" % number_of_digits)
+        print("Number of special characters: %d" % number_of_special_char)
+        print("Number of uppercase letters: %d" % number_of_uppercase)
+        print("Number of lowercase letters: %d" % characters_left)
+        password = Password(number_of_digits, number_of_special_char,
                             number_of_uppercase, number_of_lowercase)
         print(password.create_password())
 
