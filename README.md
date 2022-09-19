@@ -1,7 +1,7 @@
 # PasswordGenerator 
-This is simple password generator program.
-Password is create based of user's data, number of each characters like number of digits, special characters (*/_., ... itp).
-Password has length given by user.
+It is a simple password generator program.
+Password is create based on user's data, number of each characters digits, upper-lower cases and special characters (* / _., ... etc).
+Every input is validated to avoid errors during the working application. Password has length given by user.
 
 ## Validation
 1. User cannot give another input than digit. Program check type of variable.
